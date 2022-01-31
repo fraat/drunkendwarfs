@@ -13,14 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/aaa', function () {
+Route::get('/game/{game}', 'App\Http\Controllers\GameController@show')->name('game.show');
+Route::get('/game/create', 'App\Http\Controllers\GameController@create')->name('game.create');
+Route::post('/game', 'App\Http\Controllers\GameController@store')->name('game.store');
 
-    $game = \App\Models\Game::first();
-    echo 'Player 1:' . $game->participant1_id;
-    echo 'Player 2:' . $game->participant2_id;
-    echo 'result:' . $game->result;
-
-});
+Route::get('/ranking', 'App\Http\Controllers\GameController@ranking')->name('game.ranking');
 
 Route::get('/', function () {
     return view('welcome');
