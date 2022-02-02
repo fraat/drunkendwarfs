@@ -19,7 +19,7 @@ class GameController extends Controller
             $user->ranking = $user->ranking();
         }
         $users = $users->sort(function ($a, $b) {
-            return $a->ranking < $b->ranking;
+            return $a->ranking > $b->ranking;
         });
         $users = collect($users);
         return view('ranking', ['users' => $users]);
