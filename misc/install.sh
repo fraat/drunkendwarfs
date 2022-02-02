@@ -1,5 +1,3 @@
-<?php
-
 # utility
 apt-get -y install htop joe mc rsync curl sudo zstd
 # putty terminal to debian 10 issue resolve
@@ -14,7 +12,7 @@ mkdir -p /root/joe-backups && sed -i "s~ -backpath path~-backpath /root/joe-back
 
 # install webserver
 apt-get -y install php-fpm php php-mysqlnd php-curl php-ssh2 php-gd phpunit php-imap php-zip \
-  php-zmq php-int php-ldap php-bcmath php-soap php-redis php-imagick
+  php-zmq php-intl php-ldap php-bcmath php-soap php-redis php-imagick
 phpenmod zmq
 
 apt-get -y install redis-server
@@ -36,22 +34,14 @@ chmod 755 /var/www/.config/psysh
 # database
 apt-get -y install mariadb-server
 
-mysql -e \'CREATE DATABASE `scadawire`;\'');
-mysql -e \"GRANT ALL ON \`scadawire\`.* TO 'scadawire'@'localhost' IDENTIFIED BY 'PASSWORD';\"
-mysql -e \'GRANT CREATE USER on *.* to `scadawire`@localhost with grant option;\'
-mysql -e \'FLUSH PRIVILEGES;\'
-
+mysql -e 'CREATE DATABASE `drunkendwarfs`;'
+mysql -e "GRANT ALL ON \`drunkendwarfs\`.* TO 'drunkendwarfs'@'localhost' IDENTIFIED BY 'PASSWORD';"
+mysql -e 'FLUSH PRIVILEGES;'
 
 # after install
 sudo -u www-data composer install
 sudo -u www-data cp .env.example .env
 sudo -u www-data php artisan key:generate
-sed -i "s/DB_PASSWORD=.*/DB_PASSWORD=' . $password . '/g" .env
-sed -i "s/DB_HDBPP_PASSWORD=.*/DB_HDBPP_PASSWORD=' . $passwordHdbpp . '/g" .env
 sudo -u www-data php artisan storage:link
 
-sudo -u www-data php artisan deploy.php
-
-# cleanup
-apt-get clean');
-?>
+sudo -u www-data deploy.sh
